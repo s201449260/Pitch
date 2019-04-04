@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class PlayVC: UIViewController {
+class PlaySoundsViewController: UIViewController {
     
     var recordedAudioURL:URL!
     var audioFile:AVAudioFile!

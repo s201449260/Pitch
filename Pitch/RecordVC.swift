@@ -29,9 +29,10 @@ class RecordVC: UIViewController, AVAudioRecorderDelegate {
     
     @IBAction func startRecord(_ sender: UIButton) {
         
-        recordLabel.text = "recording now..."
-        recordBtn.isEnabled = false
-        stopRecordBtn.isEnabled = true
+//        recordLabel.text = "recording now..."
+//        recordBtn.isEnabled = false
+//        stopRecordBtn.isEnabled = true
+        configureUI(recording: true)
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -53,16 +54,36 @@ class RecordVC: UIViewController, AVAudioRecorderDelegate {
     
     @IBAction func stopRecord(_ sender: UIButton) {
         
-        recordLabel.text = "Tap to record"
-        recordBtn.isEnabled = true
-        stopRecordBtn.isEnabled = false
+//        recordLabel.text = "Tap to record"
+//        recordBtn.isEnabled = true
+//        stopRecordBtn.isEnabled = false
 
-        
+        configureUI(recording: false)
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
         
 
+        
+    }
+    
+    func configureUI(recording : DarwinBoolean) {
+        
+        if recording == true {
+            
+            recordLabel.text = "recording now..."
+            recordBtn.isEnabled = false
+            stopRecordBtn.isEnabled = true
+            
+        }
+        
+        else{
+            
+            recordLabel.text = "Tap to record"
+            recordBtn.isEnabled = true
+            stopRecordBtn.isEnabled = false
+            
+        }
         
     }
     
@@ -82,7 +103,7 @@ class RecordVC: UIViewController, AVAudioRecorderDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "stopRecording"  {
-            let playCV = segue.destination as! PlayVC
+            let playCV = segue.destination as! PlaySoundsViewController
             let recoredURL = sender as! URL
             playCV.recordedAudioURL = recoredURL
         }
